@@ -1,5 +1,4 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
 from .models import clientes
 
 # Create your views here.
@@ -10,14 +9,14 @@ def listaclientes(request):
 
 def creaclientes(request):
   nvocliente = clientes(
-  nombre = request.POST["nombres"],
-  apellido =  request.POST["apellido"],
-  sexo = request.POST["sexo"],
-  tipo = request.POST["tipo"],
-  direccion = request.POST["direccion"]
+    nombre = request.POST["nombres"],
+    apellido =  request.POST["apellido"],
+    sexo = request.POST["sexo"],
+    tipo = request.POST["tipo"],
+    direccion = request.POST["direccion"]
   )
 
-nvocliente.save()
-return redirect("/pageclientes/")
+  nvocliente.save()
+  return redirect("/pageclientes/")
 
 

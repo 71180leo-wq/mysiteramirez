@@ -27,3 +27,5 @@ urlpatterns = [
     path("pageusuarios/", include("usuarios.urls")),
 
 ]
+
+# path es el que manda llamara a las  urls que contienen las llmadas a la vista
