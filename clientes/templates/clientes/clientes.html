@@ -24,6 +24,14 @@
     <div class="container">
 
         <h1 class="text-center mb-4">👋 Bienvenido a la Pantalla de Cliente</h1>
+        <form action="" method="POST">
+            {% csrf_token%}
+            <input type="text" name="nombre" placeholder="Nombre"><br>
+            <input type="text" name="apellido" placeholder="Apellido"><br>
+            <input type="text" name="sexo" placeholder="Sexo"><br>
+            <input type="text" name="tipo" placeholder="Tipo"><br>
+            <input type="text" name="direccion" placeholder="Direccion"><br>
+        </form>
         
         <div class="card shadow-sm">
             <div class="card-body">
