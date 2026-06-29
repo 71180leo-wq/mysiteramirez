@@ -21,6 +21,21 @@
             <input type="text" name="direccion" placeholder="Direccion completa"><br>
             <br><button>Guardar</button>
         </form>
+        <h2 style="color: red;" >Productos nuevos</h2>
+        <table style="width: 25%">
+            <tr>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Direccion</th>
+            </tr>
+            {% for productos in consultaproductos %}
+            <tr>
+                <td>{{productos.nombre}}</td>
+                <td>{{productos.tipo}}</td>
+                <td>{{productos.direccion}}</td>
+
+            </tr>
+            {% endfor %}
         
         <div class="d-flex justify-content-between mb-3">
             <input type="text" class="form-control w-50" placeholder="Buscar producto...">
