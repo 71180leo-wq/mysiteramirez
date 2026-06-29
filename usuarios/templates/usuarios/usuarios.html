@@ -13,6 +13,15 @@
 
     <div class="container">
         <h1 class="text-center mb-4">👤 Gestión de Usuarios</h1>
+        <form action="/pageusuarios/nuevo/" method="POST">
+            {% csrf_token %}
+            <input type="text" name="nombre" placeholder="Solo nombre"><br>
+            <input type="text" name="apellido" placeholder="Solo apellido"><br>
+            <input type="text" name="sexo" placeholder="H o M"><br>
+            <input type="text" name="tipo" placeholder="General"><br>
+            <input type="text" name="direccion" placeholder="Direccion general"><br>
+            <br><button>Guardar</button>
+        </form>
         
         <div class="card">
             <div class="card-body">

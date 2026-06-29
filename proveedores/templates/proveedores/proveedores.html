@@ -13,6 +13,16 @@
 
     <div class="container">
         <h1 class="text-center mb-4">🤝 Proveedores</h1>
+        <form action="/pageproveedores/nuevo/" method="POST">
+            {% csrf_token %}
+            <input type="text" name="nombre" placeholder="Solo nombre"><br>
+            <input type="text" name="apellido" placeholder="Solo apellido"><br>
+            <input type="text" name="sexo" placeholder="H o M"><br>
+            <input type="text" name="tipo" placeholder="General"><br>
+            <input type="text" name="direccion" placeholder="Direccion completa"><br>
+            <br><button>Guardar</button>
+        </form>
+
         
         <a href="#" class="btn btn-success mb-3">+ Agregar Proveedor</a>
 

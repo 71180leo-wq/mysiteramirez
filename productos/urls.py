@@ -1,6 +1,7 @@
 from django.urls import path
-from .import views
+from .views import listaproductos, creaproductos
 
 urlpatterns = [ 
-path("form-productos", views.productos)
+path('', listaproductos),
+path('nuevo/', creaproductos)
 ]

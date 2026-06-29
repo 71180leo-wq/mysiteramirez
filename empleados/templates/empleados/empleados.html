@@ -13,7 +13,17 @@
 <body>
 
     <div class="container">
-        <h1 class="text-center mb-4">👷‍♂️ Panel de Empleados</h1>
+        <h1 class="text-center mb-4">👷‍♂️ Panel de Empleados</h1> 
+        <from action="/pageempleados/nuevo/" method="POST">
+            {% csrf_token %}
+            <input type="text" name="nombre" placeholder="Solo tu nombre"><br>
+            <input type="text" name="apellido" placeholder="Solo el apellido"><br>
+            <input type="text" name="sexo" placeholder="H o M"><br>
+            <input type="text" name="tipo"  placeholder="General"><br>
+            <input type="text" name="direccion" placeholder="Dirccion correcta"><br>
+            <br><button>Guardar</button>
+        </from>
+
         
         <div class="row">
             <div class="col-md-4 mb-3">
