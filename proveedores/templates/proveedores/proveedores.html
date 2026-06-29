@@ -10,6 +10,19 @@
     </style>
 </head>
 <body>
+
+
+    <div class="container">
+        <h1 class="text-center mb-4">🤝 Proveedores</h1>
+        <form action="/pageproveedores/nuevo/" method="POST">
+            {% csrf_token %}
+            <input type="text" name="nombre" placeholder="Solo nombre"><br>
+            <input type="text" name="apellido" placeholder="Solo apellido"><br>
+            <input type="text" name="sexo" placeholder="H o M"><br>
+            <input type="text" name="tipo" placeholder="General"><br>
+            <input type="text" name="direccion" placeholder="Direccion completa"><br>
+            <br><button>Guardar</button>
+        </form>
         <style>
         table, th, td{
             border: 2px solid darkblue;
@@ -23,19 +36,7 @@
         .container {
             max-width: 900px;
         }
-    </style>
-
-    <div class="container">
-        <h1 class="text-center mb-4">🤝 Proveedores</h1>
-        <form action="/pageproveedores/nuevo/" method="POST">
-            {% csrf_token %}
-            <input type="text" name="nombre" placeholder="Solo nombre"><br>
-            <input type="text" name="apellido" placeholder="Solo apellido"><br>
-            <input type="text" name="sexo" placeholder="H o M"><br>
-            <input type="text" name="tipo" placeholder="General"><br>
-            <input type="text" name="direccion" placeholder="Direccion completa"><br>
-            <br><button>Guardar</button>
-        </form>
+        </style>
         <h2 style="color: red;" >Proveedores Existentes</h2>
         <table style="width: 25%">
             <tr>
