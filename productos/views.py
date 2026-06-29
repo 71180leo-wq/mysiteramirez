@@ -10,7 +10,7 @@ def listaproductos(request):
 
 def creaproductos(request):
   nvoproducto = productos (
-    nombre = request.POST["npmbre"],
+    nombre = request.POST["nombre"],
     tipo = request.POST["tipo"],
     direccion = request.POST["direccion"]
   )

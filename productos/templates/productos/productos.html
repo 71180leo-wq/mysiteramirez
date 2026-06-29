@@ -16,7 +16,7 @@
         <h1 class="text-center mb-4">📦 Gestión de Productos</h1>
         <form action="/pageproductos/nuevo/" method="POST">
             {% csrf_token %}
-            <input type="text" name="nombre" placeholder="Solo nombre"><br>
+            <input type="text" name="nombre" placeholder="Solo nombre" required><br>
             <input type="text" name="tipo" placeholder="General"><br>
             <input type="text" name="direccion" placeholder="Direccion completa"><br>
             <br><button>Guardar</button>
