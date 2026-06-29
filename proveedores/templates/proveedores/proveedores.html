@@ -22,6 +22,25 @@
             <input type="text" name="direccion" placeholder="Direccion completa"><br>
             <br><button>Guardar</button>
         </form>
+        <h2 style="color: red;" >Proveedores Existentes</h2>
+        <table style="width: 25%">
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Sexo</th>
+                <th>Tipo</th>
+                <th>Direccion</th>
+            </tr>
+            {% for proveedores in consultaproveedores %}
+            <tr>
+                <td>{{proveedores.nombre}}</td>
+                <td>{{proveedores.apellido}}</td>
+                <td>{{proveedores.sexo}}</td>
+                <td>{{proveedores.tipo}}</td>
+                <td>{{proveedores.direccion}}</td>
+
+            </tr>
+            {% endfor %}
 
         
         <a href="#" class="btn btn-success mb-3">+ Agregar Proveedor</a>

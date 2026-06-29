@@ -22,6 +22,25 @@
             <input type="text" name="direccion" placeholder="Direccion general"><br>
             <br><button>Guardar</button>
         </form>
+        <h2 style="color: red;" >Usuarios Existentes</h2>
+        <table style="width: 25%">
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Sexo</th>
+                <th>Tipo</th>
+                <th>Direccion</th>
+            </tr>
+            {% for usuaros in consultausuarios %}
+            <tr>
+                <td>{{usuarios.nombre}}</td>
+                <td>{{usuarios.apellido}}</td>
+                <td>{{usuarios.sexo}}</td>
+                <td>{{usuarios.tipo}}</td>
+                <td>{{usuarios.direccion}}</td>
+
+            </tr>
+            {% endfor %}
         
         <div class="card">
             <div class="card-body">
