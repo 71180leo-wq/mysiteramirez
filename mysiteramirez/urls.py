@@ -14,18 +14,40 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+"""
+URL configuration for mysiteramirez project.
+"""
 from django.contrib import admin
-from django.urls import path
 from django.urls import path, include
+from . import views
 
 urlpatterns = [
+    path('', views.home, name='home'),
     path('admin/', admin.site.urls),
+    
+    # Módulos Base
     path("pageclientes/", include("clientes.urls")),
     path("pageproveedores/", include("proveedores.urls")),
     path("pageempleados/", include("empleados.urls")),
     path("pageproductos/", include("productos.urls")),
     path("pageusuarios/", include("usuarios.urls")),
+    
+    # Módulos Transaccionales
+    path("pageventas/", include("ventas.urls")),
+    path("pagecompras/", include("compras.urls")),
+    
+    # Módulos de Organización
+    path("pagegrupos/", include("grupos.urls")),
+    path("pagesucursal/", include("sucursal.urls")),
+    path("pageinventario/", include("inventario.urls")),
 
+    
+    # 🌟 COMENTADO TEMPORALMENTE PARA EVITAR EL ATTRIBUTERROR
+    # Cuando termines tu archivo inventario/views.py le quitas el '#' de abajo:
+    # path("pageinventario/", include("inventario.urls")),
 ]
+
+
+
 
 # path es el que manda llamara a las  urls que contienen las llmadas a la vista

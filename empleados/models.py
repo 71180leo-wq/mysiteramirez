@@ -1,19 +1,18 @@
+
 from django.db import models
 
-# Create your models here.
-
 class empleados(models.Model):
-    nombre = models.CharField()
-    apellido =  models.CharField()
-    sexo = models.CharField()
-    tipo = models.CharField()
-    direccion = models.CharField()
+    nombre = models.CharField(max_length=100)
+    apellido = models.CharField(max_length=100)
+    sexo = models.CharField(max_length=10)
+    tipo = models.CharField(max_length=100)
+    direccion = models.CharField(max_length=200)
+    estado = models.CharField(max_length=10, default='Activo')  
+    
+    jefe_o_supervisor = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name="nomina") 
 
-class nomina(models.Model):
-    nombre = models.CharField()
-    apellido =  models.CharField()
-    sexo = models.CharField()
-    tipo = models.CharField()
-    direccion = models.CharField()
-    empleados = models.ForeignKey(empleados, on_delete=models.CASCADE, related_name="nominas")
+    def __str__(self):
+        return f"{self.nombre} {self.apellido}"
 
+    class Meta:
+        verbose_name_plural = "Empleados"

@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block title %}Compras{% endblock %}
+
+{% block content %}
+
+    <h1 class="text-center mb-4">🛒 Gestión de Compras</h1>
+
+    <!-- Formulario Crear Compra -->
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+            <h5>➕ Registrar Nueva Compra</h5>
+        </div>
+        <div class="card-body">
+            <form action="{% url 'nuevo_compra' %}" method="POST">
+                {% csrf_token %}
+                <div class="row g-3">
+                    <div class="col-md-2">
+                        <label class="form-label fw-bold">Folio</label>
+                        <input type="text" name="folio" class="form-control" placeholder="Folio" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Fecha</label>
+                        <input type="date" name="fecha" class="form-control" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label fw-bold">Subtotal</label>
+                        <input type="number" step="0.01" name="subtotal" class="form-control" placeholder="0.00" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label fw-bold">IVA</label>
+                        <input type="number" step="0.01" name="iva" class="form-control" placeholder="0.00" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Total</label>
+                        <input type="number" step="0.01" name="total" class="form-control" placeholder="0.00" required>
+                    </div>
+                    
+                    <!-- Selección Múltiple de Proveedores -->
+                    <div class="col-md-6 mt-3">
+                        <label class="form-label text-muted fw-bold">Seleccionar Proveedor(es):</label>
+                        <select name="proveedores" class="form-select" multiple required>
+                            {% for prov in todos_clientes %}
+                                <option value="{{ prov.id }}">{{ prov.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                        <small class="text-muted">Mantén presionado Ctrl (o Cmd en Mac) para elegir varios.</small>
+                    </div>
+
+                    <!-- Selección Múltiple de Productos -->
+                    <div class="col-md-6 mt-3">
+                        <label class="form-label text-muted fw-bold">Seleccionar Producto(s):</label>
+                        <select name="productos" class="form-select" multiple required>
+                            {% for p in todos_productos %}
+                                <option value="{{ p.id }}">{{ p.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                        <small class="text-muted">Mantén presionado Ctrl (o Cmd en Mac) para elegir varios.</small>
+                    </div>
+
+                    <div class="col-md-12 text-end mt-4">
+                        <button type="submit" class="btn btn-success px-4">Guardar Compra</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Lista de Compras -->
+    <h3>Compras Registradas</h3>
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Folio</th>
+                <th>Fecha</th>
+                <th>Proveedores</th>
+                <th>Productos</th>
+                <th>Subtotal</th>
+                <th>IVA</th>
+                <th>Total</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for compra in consultaventas %}
+            <tr>
+                <td>{{ compra.folio }}</td>
+                <td>{{ compra.fecha|date:"d/m/Y" }}</td>
+                <td>
+                    {% for prov in compra.proveedores.all %}
+                        <span class="badge bg-secondary">{{ prov.nombre }}</span>
+                    {% empty %}
+                        <span class="text-muted">-</span>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for p in compra.productos.all %}
+                        <span class="badge bg-dark">{{ p.nombre }}</span>
+                    {% empty %}
+                        <span class="text-muted">-</span>
+                    {% endfor %}
+                </td>
+                <td>${{ compra.subtotal }}</td>
+                <td>${{ compra.iva }}</td>
+                <td><strong>${{ compra.total }}</strong></td>
+                <td>
+                    <span class="badge {% if compra.estado == 'Activo' %}bg-success{% else %}bg-danger{% endif %}">
+                        {{ compra.estado|default:"Activo" }}
+                    </span>
+                </td>
+                <td>
+                    <!-- Enlace corregido para editar compra -->
+                    <a href="{% url 'editar_compra' compra.id %}" class="btn btn-warning btn-sm">✏️ Editar</a>
+                    
+                    {% if compra.estado == 'Activo' or not compra.estado %}
+                    <!-- Formulario Dar de Baja Compra -->
+                    <form action="{% url 'eliminar_compra' compra.id %}" method="POST" style="display:inline;" onsubmit="return confirm('¿Dar de baja esta compra?')">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">⤵️ Dar de Baja</button>
+                    </form>
+                    {% else %}
+                    <!-- Formulario Activar Compra -->
+                    <form action="{% url 'activar_compra' compra.id %}" method="POST" style="display:inline;" onsubmit="return confirm('¿Reactivar esta compra?')">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-info btn-sm text-white">⬆️ Activar</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="9" class="text-center text-muted">No hay compras registradas</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

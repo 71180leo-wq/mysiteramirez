@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Venta{% endblock %}
+
+{% block content %}
+    <h2>Editar Venta</h2>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label>Nombre</label>
+            <input type="text" name="nombre" value="{{ cliente.nombre }}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Apellido</label>
+            <input type="text" name="apellido" value="{{ cliente.apellido }}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Sexo</label>
+            <input type="text" name="sexo" value="{{ cliente.sexo }}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Tipo</label>
+            <input type="text" name="tipo" value="{{ cliente.tipo }}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Dirección</label>
+            <input type="text" name="direccion" value="{{ cliente.direccion }}" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        <a href="{% url 'lista_venta' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+{% endblock %}

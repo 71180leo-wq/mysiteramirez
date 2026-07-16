@@ -1,95 +1,84 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Gestión de Usuarios</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body { font-family: Arial, sans-serif; background-color: #f8f9fa; padding-top: 20px; }
-    </style>
-</head>
-<body>
-        <style>
-        table, th, td{
-            border: 2px solid darkblue;
-            border-collapse: collapse ;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            padding-top: 20px;
-        }
-        .container {
-            max-width: 900px;
-        }
-    </style>
+{% extends 'base.html' %}
 
-    <div class="container">
-        <h1 class="text-center mb-4">👤 Gestión de Usuarios</h1>
-        <form action="/pageusuarios/nuevo/" method="POST">
-            {% csrf_token %}
-            <input type="text" name="nombre" placeholder="Solo nombre"><br>
-            <input type="text" name="apellido" placeholder="Solo apellido"><br>
-            <input type="text" name="sexo" placeholder="H o M"><br>
-            <input type="text" name="tipo" placeholder="General"><br>
-            <input type="text" name="direccion" placeholder="Direccion general"><br>
-            <br><button>Guardar</button>
-        </form>
-        <h2 style="color: red;" >Usuarios Existentes</h2>
-        <table style="width: 25%">
+{% block title %}Usuarios{% endblock %}
+
+{% block content %}
+
+    <h1 class="text-center mb-4">👤 Gestión de Usuarios</h1>
+
+    <!-- Formulario Crear -->
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+            <h5>➕ Registrar Nuevo Usuario</h5>
+        </div>
+        <div class="card-body">
+            <form action="{% url 'nuevo_usuario' %}" method="POST">
+                {% csrf_token %}
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <input type="text" name="nombre" class="form-control" placeholder="Nombre" required>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="apellido" class="form-control" placeholder="Apellido" required>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" name="sexo" class="form-control" placeholder="Sexo" required>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" name="tipo" class="form-control" placeholder="Tipo / Rol" required>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="direccion" class="form-control" placeholder="Dirección" required>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-success w-100">Guardar Usuario</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Lista -->
+    <h3>Usuarios Registrados</h3>
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
             <tr>
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Sexo</th>
-                <th>Tipo</th>
-                <th>Direccion</th>
+                <th>Tipo / Rol</th>
+                <th>Dirección</th>
+                <th>Estado</th>
+                <th>Acciones</th>
             </tr>
-            {% for usuaros in consultausuarios %}
+        </thead>
+        <tbody>
+            {% for usuario in consultausuarios %}
             <tr>
-                <td>{{usuarios.nombre}}</td>
-                <td>{{usuarios.apellido}}</td>
-                <td>{{usuarios.sexo}}</td>
-                <td>{{usuarios.tipo}}</td>
-                <td>{{usuarios.direccion}}</td>
-
+                <td>{{ usuario.nombre }}</td>
+                <td>{{ usuario.apellido }}</td>
+                <td>{{ usuario.sexo }}</td>
+                <td>{{ usuario.tipo }}</td>
+                <td>{{ usuario.direccion }}</td>
+                <td>
+                    <span class="badge {% if usuario.estado == 'Activo' %}bg-success{% else %}bg-danger{% endif %}">
+                        {{ usuario.estado }}
+                    </span>
+                </td>
+                <td>
+                    <a href="{% url 'editar_usuario' usuario.id %}" class="btn btn-warning btn-sm">✏️ Editar</a>
+                    {% if usuario.estado == 'Activo' %}
+                    <form action="{% url 'eliminar_usuario' usuario.id %}" method="POST" style="display:inline;" onsubmit="return confirm('¿Dar de baja este usuario?')">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">⤵️ Dar de Baja</button>
+                    </form>
+                    {% endif %}
+                </td>
             </tr>
+            {% empty %}
+            <tr><td colspan="7" class="text-center">No hay usuarios registrados</td></tr>
             {% endfor %}
-        
-        <div class="card">
-            <div class="card-body">
-                <h5>Usuarios Registrados</h5>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Correo</th>
-                            <th>Rol</th>
-                            <th>Estado</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Carlos Ramírez</td>
-                            <td>carlos@email.com</td>
-                            <td>Cliente</td>
-                            <td class="text-success">Activo</td>
-                            <td><button class="btn btn-sm btn-info">Editar</button></td>
-                        </tr>
-                        <tr>
-                            <td>Ana Gómez</td>
-                            <td>ana@email.com</td>
-                            <td>Empleado</td>
-                            <td class="text-success">Activo</td>
-                            <td><button class="btn btn-sm btn-info">Editar</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+        </tbody>
+    </table>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% endblock %}

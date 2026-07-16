@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Usuario{% endblock %}
+
+{% block content %}
+    <h2>Editar Usuario</h2>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label>Nombre</label>
+            <input type="text" name="nombre" value="{{ usuario.nombre }}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Apellido</label>
+            <input type="text" name="apellido" value="{{ usuario.apellido }}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Sexo</label>
+            <input type="text" name="sexo" value="{{ usuario.sexo }}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Tipo</label>
+            <input type="text" name="tipo" value="{{ usuario.tipo }}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Dirección</label>
+            <input type="text" name="direccion" value="{{ usuario.direccion }}" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        <a href="{% url 'lista_usuarios' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+{% endblock %}

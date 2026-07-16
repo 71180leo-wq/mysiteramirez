@@ -1,7 +1,9 @@
 from django.urls import path
-from .views import listaempleados, creaempleados
+from . import views
 
-urlpatterns = [ 
-path('',listaempleados),
-path('nuevo/', creaempleados)
+urlpatterns = [
+    path('', views.listaempleados, name='lista_empleados'),
+    path('nuevo/', views.creaempleados, name='nuevo_empleado'),
+    path('editar/<int:pk>/', views.editar_empleado, name='editar_empleado'),
+    path('eliminar/<int:pk>/', views.eliminar_empleado, name='eliminar_empleado'),
 ]

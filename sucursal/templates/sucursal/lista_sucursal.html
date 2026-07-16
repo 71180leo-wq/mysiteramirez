@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Sucursales{% endblock %}
+
+{% block content %}
+
+    <h1 class="text-center mb-4">🏢 Gestión de Sucursales</h1>
+
+    <!-- Formulario Crear Sucursal -->
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+            <h5>➕ Registrar Nueva Sucursal</h5>
+        </div>
+        <div class="card-body">
+            <form action="{% url 'nuevo_sucursal' %}" method="POST">
+                {% csrf_token %}
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <input type="text" name="nombre" class="form-control" placeholder="Nombre de la Sucursal" required>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="direccion" class="form-control" placeholder="Dirección (Calle y Número)" required>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="ciudad" class="form-control" placeholder="Ciudad" required>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" name="telefono" class="form-control" placeholder="Teléfono" required>
+                    </div>
+                    <div class="col-md-12 text-end mt-3">
+                        <button type="submit" class="btn btn-success px-4">Guardar Sucursal</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Lista de Sucursales -->
+    <h3>Sucursales Registradas</h3>
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Nombre</th>
+                <th>Dirección</th>
+                <th>Ciudad</th>
+                <th>Teléfono</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in consultasucursal %}
+            <tr>
+                <td>{{ item.nombre }}</td>
+                <td>{{ item.direccion }}</td>
+                <td>{{ item.ciudad|default:"General" }}</td>
+                <td>{{ item.telefono|default:"-" }}</td>
+                <td>
+                    <span class="badge {% if item.estado == 'Activo' %}bg-success{% else %}bg-danger{% endif %}">
+                        {{ item.estado|default:"Activo" }}
+                    </span>
+                </td>
+                <td>
+                    <a href="{% url 'editar_sucursal' item.id %}" class="btn btn-warning btn-sm">✏️ Editar</a>
+                    
+                    {% if item.estado == 'Activo' or not item.estado %}
+                    <form action="{% url 'eliminar_sucursal' item.id %}" method="POST" style="display:inline;" onsubmit="return confirm('¿Dar de baja esta sucursal?')">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">⤵️ Dar de Baja</button>
+                    </form>
+                    {% else %}
+                    <form action="{% url 'activar_sucursal' item.id %}" method="POST" style="display:inline;" onsubmit="return confirm('¿Reactivar esta sucursal?')">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-info btn-sm text-white">⬆️ Activar</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="6" class="text-center text-muted">No hay sucursales registradas</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
