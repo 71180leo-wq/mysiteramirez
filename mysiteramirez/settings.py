@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'clientes',
     'nomina',
+    'grupos',
     'proveedores',
     'usuarios',
     'productos',
